@@ -27,7 +27,12 @@ public class RoomListingMenu : MonoBehaviourPunCallbacks
     // PUN callback method called when player joins the room
     public override void OnJoinedRoom()
     {
-        _roomsCanvases.CurrentRoomCanvas.Show();   
+        _roomsCanvases.CurrentRoomCanvas.Show();
+
+        // Destroy room listings when player joins the room
+        _content.DestroyChildren();
+
+        _listings.Clear();
     }
 
     // PUN callback method called on room list update(addition/removal of rooms) 
@@ -53,14 +58,24 @@ public class RoomListingMenu : MonoBehaviourPunCallbacks
             {
                 // Added to Rooms List
 
-                // instantiating list item in scroll view as a child of content
-                RoomListing listing = Instantiate(_roomListing, _content);
-                
-                if(listing != null)
+                // searching for current room of roomList in the _listings 
+                int index = _listings.FindIndex(x => x.RoomInfo.Name == info.Name);
+
+                if(index == -1)
                 {
-                    // setting the values of list item after instantiating it
-                    listing.SetRoomInfo(info);
-                    _listings.Add(listing);
+                    // instantiating list item in scroll view as a child of content
+                    RoomListing listing = Instantiate(_roomListing, _content);
+                
+                    if(listing != null)
+                    {
+                        // setting the values of list item after instantiating it
+                        listing.SetRoomInfo(info);
+                        _listings.Add(listing);
+                    }
+                }
+                else
+                {
+                    // modify the room listing
                 }
             }
         }

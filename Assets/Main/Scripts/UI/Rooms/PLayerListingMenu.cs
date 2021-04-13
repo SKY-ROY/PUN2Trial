@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PLayerListingMenu : MonoBehaviourPunCallbacks
+public class PlayerListingMenu : MonoBehaviourPunCallbacks
 {
     [SerializeField]
     private Transform _content;
@@ -13,10 +13,24 @@ public class PLayerListingMenu : MonoBehaviourPunCallbacks
     private PlayerListing _playerListing;
 
     private List<PlayerListing> _listings = new List<PlayerListing>();
+    private RoomsCanvases _roomsCanvases;
 
     private void Awake()
     {
         GetCurrentRoomPlayers();
+    }
+
+    public void FirstInitialize(RoomsCanvases canvases)
+    {
+        _roomsCanvases = canvases;
+    }
+
+    public override void OnLeftRoom()
+    {
+        // Destroy player listings when player leaves the room
+        _content.DestroyChildren();
+
+        //_listings.Clear();
     }
 
     /// <summary>
@@ -51,7 +65,7 @@ public class PLayerListingMenu : MonoBehaviourPunCallbacks
 
     }
 
-    // PUN Callback method for player entering room
+    // PUN callback method for player entering room
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
         // adding player to the list
