@@ -12,8 +12,25 @@ public class RoomListingMenu : MonoBehaviourPunCallbacks
     [SerializeField]
     private RoomListing _roomListing;
 
-    private List<RoomListing> _listings = new List<RoomListing>();
+    private List<RoomListing> _listings = new List<RoomListing>();      // to store all the existing rooms
+    private RoomsCanvases _roomsCanvases;                               // for reference of RoomsCanvases
 
+    /// <summary>
+    /// for reference of the RoomCanvases(grandparent) 
+    /// </summary>
+    /// <param name="canvases"></param>
+    public void FirstInitialize(RoomsCanvases canvases)
+    {
+        _roomsCanvases = canvases;
+    }
+
+    // PUN callback method called when player joins the room
+    public override void OnJoinedRoom()
+    {
+        _roomsCanvases.CurrentRoomCanvas.Show();   
+    }
+
+    // PUN callback method called on room list update(addition/removal of rooms) 
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
     {
         foreach (RoomInfo info in roomList)

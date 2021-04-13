@@ -30,6 +30,9 @@ public class CreateRoomMenu : MonoBehaviourPunCallbacks
         createRoom_button.onClick.AddListener(onClick_CreateRoom);
     }
 
+    /// <summary>
+    /// On-Click Listener for the button to join specific room
+    /// </summary>
     public void onClick_CreateRoom()
     {
         // connection check
@@ -54,6 +57,7 @@ public class CreateRoomMenu : MonoBehaviourPunCallbacks
             name = _roomName.text;
         }
 
+        // Create a room on demand and join that room
         PhotonNetwork.JoinOrCreateRoom(name, options, TypedLobby.Default);    
     }
 
