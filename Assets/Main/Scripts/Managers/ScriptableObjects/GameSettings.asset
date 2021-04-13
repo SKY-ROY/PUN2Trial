@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a457b7970ad6f314aaefd61eac6526ff, type: 3}
   m_Name: GameSettings
   m_EditorClassIdentifier: 
-  _gameVersion: 0.0.0
+  _gameVersion: 0.0.1
   _nickName: askyr
