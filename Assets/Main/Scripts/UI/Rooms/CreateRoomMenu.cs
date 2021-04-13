@@ -13,6 +13,17 @@ public class CreateRoomMenu : MonoBehaviourPunCallbacks
 
     public Button createRoom_button;
 
+    private RoomsCanvases _roomsCanvases;   // for reference of RoomsCanvases
+
+    /// <summary>
+    /// for reference of the RoomCanvases(grandparent) 
+    /// </summary>
+    /// <param name="canvases"></param>
+    public void FirstInitialize(RoomsCanvases canvases)
+    {
+        _roomsCanvases = canvases;
+    }
+
     private void Start()
     {
         // binding listener to createRoom button
@@ -50,6 +61,7 @@ public class CreateRoomMenu : MonoBehaviourPunCallbacks
     public override void OnCreatedRoom()
     {
         Debug.Log("Created room successfully");
+        _roomsCanvases.CurrentRoomCanvas.Show();
     }
 
     // callback method for failed room creation
