@@ -3,6 +3,7 @@ using Photon.Realtime;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerListingMenu : MonoBehaviourPunCallbacks
 {
@@ -15,12 +16,13 @@ public class PlayerListingMenu : MonoBehaviourPunCallbacks
     private List<PlayerListing> _listings = new List<PlayerListing>();
     private RoomsCanvases _roomsCanvases;
 
-    /*
+    public Button startGameButton;
+    
     private void Awake()
     {
-        GetCurrentRoomPlayers();
+        // GetCurrentRoomPlayers();
+        startGameButton.onClick.AddListener(OnClick_StartGame);
     }
-    */
     
     public void FirstInitialize(RoomsCanvases canvases)
     {
@@ -58,7 +60,10 @@ public class PlayerListingMenu : MonoBehaviourPunCallbacks
     /// </summary>
     private void GetCurrentRoomPlayers()
     {
-        // perform error check to make sure we are in a room
+        if (!PhotonNetwork.IsConnected)
+            return;
+        if (PhotonNetwork.CurrentRoom == null || PhotonNetwork.CurrentRoom.Players == null)
+            return;
         
         // iterating through the Dictionary<int, Player> to add them to the _playerListing list
         foreach (KeyValuePair<int, Player> playerinfo in PhotonNetwork.CurrentRoom.Players)
@@ -117,5 +122,20 @@ public class PlayerListingMenu : MonoBehaviourPunCallbacks
             Destroy(_listings[index].gameObject);
             _listings.RemoveAt(index);
         }
+    }
+
+    public void OnClick_StartGame()
+    {
+        // client who creates the room is Master client
+        if(PhotonNetwork.IsMasterClient)
+        {
+            // prevents the users from seeing and joining the room so the next scene can be loaded 
+            PhotonNetwork.CurrentRoom.IsOpen = false;
+            PhotonNetwork.CurrentRoom.IsVisible = false;
+
+            // loading scene through scene index
+            PhotonNetwork.LoadLevel(1);
+        }
+
     }
 }
