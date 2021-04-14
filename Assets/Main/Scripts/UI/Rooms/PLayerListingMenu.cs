@@ -15,23 +15,43 @@ public class PlayerListingMenu : MonoBehaviourPunCallbacks
     private List<PlayerListing> _listings = new List<PlayerListing>();
     private RoomsCanvases _roomsCanvases;
 
+    /*
     private void Awake()
     {
         GetCurrentRoomPlayers();
     }
-
+    */
+    
     public void FirstInitialize(RoomsCanvases canvases)
     {
         _roomsCanvases = canvases;
     }
+    
+    public override void OnEnable()
+    {
+        base.OnEnable();
+        
+        GetCurrentRoomPlayers();
+    }
 
+    public override void OnDisable()
+    {
+        base.OnDisable();
+
+        for (int i = 0; i < _listings.Count; i++)
+            Destroy(_listings[i].gameObject);
+
+        _listings.Clear();
+    }
+
+    
+    /*
     public override void OnLeftRoom()
     {
         // Destroy player listings when player leaves the room
         _content.DestroyChildren();
-
-        //_listings.Clear();
     }
+    */
 
     /// <summary>
     /// creating a list of all the players currently in room
@@ -53,14 +73,23 @@ public class PlayerListingMenu : MonoBehaviourPunCallbacks
     /// <param name="player"></param>
     private void AddPlayerListing(Player player)
     {
-        // instantiating list item in scroll view as a child of content
-        PlayerListing listing = Instantiate(_playerListing, _content);
+        int index = _listings.FindIndex(x => x.Player == player);
 
-        if (listing != null)
+        if(index != -1)
         {
-            // setting the values of list item after instantiating it
-            listing.SetPlayerInfo(player);
-            _listings.Add(listing);
+            _listings[index].SetPlayerInfo(player);
+        }
+        else
+        {
+            // instantiating list item in scroll view as a child of content
+            PlayerListing listing = Instantiate(_playerListing, _content);
+
+            if (listing != null)
+            {
+                // setting the values of list item after instantiating it
+                listing.SetPlayerInfo(player);
+                _listings.Add(listing);
+            }
         }
 
     }
@@ -68,6 +97,8 @@ public class PlayerListingMenu : MonoBehaviourPunCallbacks
     // PUN callback method for player entering room
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
+        Debug.Log(newPlayer.NickName + " joined room!");
+
         // adding player to the list
         AddPlayerListing(newPlayer);
     }
@@ -75,6 +106,8 @@ public class PlayerListingMenu : MonoBehaviourPunCallbacks
     // PUN callback method
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
+        Debug.Log(otherPlayer.NickName + " left room!");
+
         // locate the index for the room in the list through name which has been deleted
         int index = _listings.FindIndex(x => x.Player == otherPlayer);
 
