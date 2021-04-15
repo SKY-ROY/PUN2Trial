@@ -31,13 +31,12 @@ public class PlayerListing : MonoBehaviourPunCallbacks
         }
     }
 
-    // changes te text for the player listing item with corresponding values
+    // changes the text for the player listing item with corresponding values
     private void SetPlayerText(Player player)
     {
         int result = -1;
 
         // receiving the custom property through the photon hash table for each client if it exists
-        // as updating custom properties won't let photon know it automatically, we have to do it manually every time 
         if (player.CustomProperties.ContainsKey("RandomNumber"))
         {
             result = (int)player.CustomProperties["RandomNumber"];
