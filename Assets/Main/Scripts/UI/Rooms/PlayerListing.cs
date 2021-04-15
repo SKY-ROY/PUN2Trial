@@ -14,6 +14,16 @@ public class PlayerListing : MonoBehaviour
     public void SetPlayerInfo(Player player)
     {
         Player = player;
-        _text.text = player.NickName;
+
+        int result = -1;
+
+        // receiving the custom property through the photon hash table for each client if it exists
+        // as updating custom properties won't let photon know it automatically, we have to do it manually every time 
+        if (player.CustomProperties.ContainsKey("RandomNumber"))
+        {
+            result = (int)player.CustomProperties["RandomNumber"];
+        }
+        
+        _text.text = player.NickName + ", " + result.ToString();
     }
 }

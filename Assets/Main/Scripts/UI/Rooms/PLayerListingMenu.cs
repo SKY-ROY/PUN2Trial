@@ -46,7 +46,6 @@ public class PlayerListingMenu : MonoBehaviourPunCallbacks
         _listings.Clear();
     }
 
-    
     /*
     public override void OnLeftRoom()
     {
