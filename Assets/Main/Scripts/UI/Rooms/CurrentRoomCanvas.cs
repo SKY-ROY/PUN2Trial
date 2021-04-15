@@ -8,6 +8,8 @@ public class CurrentRoomCanvas : MonoBehaviour
     private PlayerListingMenu _playerListingMenu;
     [SerializeField]
     private LeaveRoomMenu _leaveRoomMenu;
+    public LeaveRoomMenu LeaveRoomMenu { get { return _leaveRoomMenu; } }
+
 
     private RoomsCanvases _roomsCanvases;
 
