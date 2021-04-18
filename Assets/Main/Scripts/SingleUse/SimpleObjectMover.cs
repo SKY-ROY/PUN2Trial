@@ -3,12 +3,37 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SimpleObjectMover : MonoBehaviourPun
+public class SimpleObjectMover : MonoBehaviourPun, IPunObservable
 {
     [SerializeField]
     private float _moveSpeed = 1f;
 
     private Animator _animator;
+
+    // IPunObservable interface implementation enables PhotonView to obeserve a component
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        /*
+        // normally we would use PhotonTransformView or PhotonTransformViewClassic which will synchronize automatically
+        // but for undestanding the OnPhotonSerializeView we would do it manuallly here
+
+        if(stream.IsWriting)
+        {
+            // we are the owner and sending the data
+
+            stream.SendNext(transform.position);
+            stream.SendNext(transform.rotation);
+        }
+        else if(stream.IsReading)
+        {
+            // remote client player(not owner) receiving the data
+
+            // casting is required as tyoe is not specified when parsing the bytes from stream
+            transform.position = (Vector3)stream.ReceiveNext();
+            transform.rotation = (Quaternion)stream.ReceiveNext();
+        }
+        */
+    }
 
     private void Awake()
     {
