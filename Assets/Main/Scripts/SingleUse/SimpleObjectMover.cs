@@ -52,12 +52,12 @@ public class SimpleObjectMover : MonoBehaviourPun, IPunObservable
         if(base.photonView.IsMine)
         {
             float x = Input.GetAxisRaw("Horizontal");
-            float y = Input.GetAxisRaw("Vertical");
+            float z = Input.GetAxisRaw("Vertical");
 
-            transform.position += (new Vector3(x, y, 0f) * _moveSpeed);
+            transform.position += (new Vector3(x, 0f, z) * _moveSpeed);
             
             // toggling the boolean for animation
-            UpdateMovingBoolean((x != 0f || y != 0f));
+            UpdateMovingBoolean((x != 0f || z != 0f));
         }
     }
 
