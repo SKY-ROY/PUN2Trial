@@ -7,4 +7,6 @@
  <li>Instantiate over network</li>
  <li>Raise events over network</li>
  <li>RPC calls</li>
+ <li>Custom Properties</li>
+ <li>Photon Views</li>
 </ol>
