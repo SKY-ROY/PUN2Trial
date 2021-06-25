@@ -3,6 +3,7 @@
 <ol>
  <li>Room creation</li>
  <li>Room joining</li>
+ <li>Mater Controls</li>
  <li>Scene Launch over network</li> 
  <li>Instantiate over network</li>
  <li>Raise events over network</li>
